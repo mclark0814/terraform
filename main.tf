@@ -8,18 +8,18 @@ terraform {
   }
 }
 provider "aws" {
-  region                  = "us-east-1"
+  region                   = "us-east-1"
   shared_credentials_files = ["~/.aws/credentials"]
- # profile                 = "myprofile"
+  # profile                 = "myprofile"
 }
 terraform {
   cloud {
     organization = "www-mclark"
 
     workspaces {
-        name     = "Project_19"
+      name = "Project_19"
     }
-  }  
+  }
 }
 # Create a VPC
 resource "aws_vpc" "main" {
@@ -127,7 +127,7 @@ resource "tls_private_key" "pk" {
   rsa_bits  = 4096
 }
 resource "aws_key_pair" "kp" {
-  key_name   = "MyKey"       # Create a "myKey" to AWS!!
+  key_name   = "MyKey" # Create a "myKey" to AWS!!
   public_key = tls_private_key.pk.public_key_openssh
   provisioner "local-exec" { # Create a "myKey.pem" to your computer!!
     command = "echo '${tls_private_key.pk.private_key_pem}' > ./MyKey.pem"
@@ -198,7 +198,7 @@ resource "aws_lb_target_group_attachment" "ec2_attach" {
   target_id        = aws_instance.project19web1.id
 }
 resource "aws_db_subnet_group" "default" {
-  name       =  "main"
+  name       = "main"
   subnet_ids = ["${aws_subnet.private_subnet1.id}", "${aws_subnet.private_subnet2.id}"]
 }
 resource "aws_db_instance" "database-instance1" {
@@ -212,5 +212,5 @@ resource "aws_db_instance" "database-instance1" {
   parameter_group_name = "default.mysql5.7"
   db_subnet_group_name = "main"
   skip_final_snapshot  = true
-  availability_zone = "us-east-1c"
+  availability_zone    = "us-east-1c"
 }
